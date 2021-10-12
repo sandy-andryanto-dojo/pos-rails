@@ -1,0 +1,121 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Management</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="javascript:void(0);">Master</a></li>
+    <li><a href="<%= users_path %>"><%= @page_name %></a></li>
+    <li class="active">Edit Data</li>
+</ol>
+
+<%= render "shared/alert" %>
+
+
+<% if @user.errors.full_messages.any? %>
+<div class="alert alert-warning" alert-dismissable>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <% @user.errors.full_messages.each do |msg| %>
+        <p class="text-left"><i class="fa fa-warning"></i>&nbsp;<%= msg %></p>
+    <% end %>
+</div>
+<% end %>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <div class="pull-left">
+                <i class="fa fa-edit"></i>&nbsp;<strong>Edit Data</strong>
+            </div>
+            <div class="pull-right">
+                <%= link_to '<i class="fa fa-rotate-left"></i>&nbsp;Back'.html_safe, users_path,  class: "btn btn-sm btn-info" %>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <%= form_for(@user, html: { class: "form-horizontal", :"id" => "form-submit", :"role" => "form", :"enctype" => "multipart/form-data" }) do |f| %>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="username">Username :</label>
+            <div class="col-sm-10">
+                <%= text_field_tag :username, @user.username, class: 'form-control' %>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email :</label>
+            <div class="col-sm-10">
+                <%= email_field_tag :email, @user.email, class: 'form-control' %>
+            </div>
+        </div>
+
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="phone">Phone :</label>
+            <div class="col-sm-10">
+                <%= text_field_tag :phone, @user.phone, class: 'form-control' %>
+            </div>
+        </div>
+
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="password">Password :</label>
+            <div class="col-sm-10">
+                <%= password_field_tag :password, nil, class: 'form-control' %>
+            </div>
+        </div>
+
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="password_digest_confirmation">Password Confirmation:</label>
+            <div class="col-sm-10">
+                <%= password_field_tag :password_confirmation, nil, class: 'form-control' %>
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="roles">Roles :</label>
+            <div class="col-sm-10">
+                <%= select_tag("role_ids[]", options_for_select(Role.all.collect { |role| [role.name, role.id] }, @user.role_ids.collect { |role| role}), {:multiple=>true,:class=>'form-control', :size=>6})%>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="is_active"></label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <%= check_box_tag 'is_active', 1, @user.is_active, class: ''  %>&nbsp;<strong>Active</strong>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save"></i>&nbsp;Save
+                </button>
+                <button type="reset" class="btn btn-warning">
+                    <i class="fa fa-refresh"></i>&nbsp;Reset
+                </button>
+            </div>
+        </div>
+
+
+        <% end %>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+<% end %>
+
+<% content_for :scripts do %>
+<%= javascript_include_tag "/scripts/users.js"+"?"+SecureRandom.uuid  %>
+<% end %>   

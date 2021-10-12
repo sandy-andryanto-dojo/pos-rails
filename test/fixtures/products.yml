@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sku: MyString
+  name: MyString
+  brand: one
+  type: one
+  supplier: one
+  price_purchase: 1.5
+  price_sales: 1.5
+  price_profit: 9.99
+  date_expired: 2020-01-01
+  description: MyText
+  notes: MyText
+
+two:
+  sku: MyString
+  name: MyString
+  brand: two
+  type: two
+  supplier: two
+  price_purchase: 1.5
+  price_sales: 1.5
+  price_profit: 9.99
+  date_expired: 2020-01-01
+  description: MyText
+  notes: MyText

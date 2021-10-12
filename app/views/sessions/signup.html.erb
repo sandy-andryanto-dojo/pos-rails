@@ -1,0 +1,59 @@
+<% content_for :title do %>
+  Register
+<% end %>
+
+<% content_for :content do %>
+
+ <div class="col-md-4 col-centered">
+     <h1></h1>
+     <div class="panel panel-default">
+
+        
+        <div class="panel-heading">
+            <i class="fa fa-user"></i>&nbsp; <strong>Sign Up New Account</strong>
+        </div>
+         <div class="panel-body">
+
+            <% if @user.errors.full_messages.any? %>
+            <div class="alert alert-warning" alert-dismissable>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <% @user.errors.full_messages.each do |msg| %>
+                    <p class="text-left"><i class="fa fa-warning"></i>&nbsp;<%= msg %></p>
+                <% end %>
+            </div>
+            <% end %>
+
+
+            <%= form_for(@user,:url => {:action => "register" }, html: { class: "", :"id" => "", :"role" => "form", :"enctype" => "multipart/form-data" }) do |f| %>
+           
+            <div class="form-group">
+                <label for="username">Username</label>
+                <%= text_field_tag :username, @user.username, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <%= email_field_tag :email, @user.email, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <%= password_field_tag :password, nil, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation">Password Confirmation</label>
+                <%= password_field_tag :password_confirmation, nil, class: 'form-control' %>
+            </div>
+
+            <button type="submit" class="btn btn-default btn-block">
+                <i class="fa fa-user-plus"></i>&nbsp;Register Now
+            </button>
+
+            <% end %>
+         </div>
+     </div>
+ </div>
+
+
+<% end %>

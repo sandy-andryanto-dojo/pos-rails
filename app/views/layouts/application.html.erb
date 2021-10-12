@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <title>Point Of Sales - <%= yield :title %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <%= stylesheet_link_tag '/css/bootstrap.min.css' %> 
+    <%= stylesheet_link_tag '/css/font-awesome.min.css' %> 
+    <!-- Other CSS -->
+    <%= stylesheet_link_tag '/plugins/datatables/dataTables.bootstrap.css' %> 
+    <%= stylesheet_link_tag '/plugins/select2/select2.min.css' %> 
+    <%= stylesheet_link_tag '/plugins/select2/select2-bootstrap.min.css' %> 
+    <%= stylesheet_link_tag '/plugins/datepicker/datepicker3.css' %> 
+    <%= stylesheet_link_tag '/plugins/sweetalert/sweetalert.css' %> 
+    <%= stylesheet_link_tag '/plugins/toast/toastr.min.css' %> 
+    <%= stylesheet_link_tag '/plugins/bootstrap-fileinput/css/fileinput.min.css' %> 
+    <%= stylesheet_link_tag '/css/app.css' %> 
+    <%= yield :stylesheets %>
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <%= favicon_link_tag 'icon.png', skip_pipeline: true %>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <%= render "shared/navigation" %>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+           <%= content_for?(:content) ? yield(:content) : yield %>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Point Of Sales <%= Time.current.year %></p>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <%= javascript_include_tag "/js/jquery.js" %>
+
+    <!-- Bootstrap Core JavaScript -->
+    <%= javascript_include_tag "/js/bootstrap.min.js" %>
+
+    <!-- Other JavaScript -->
+    <%= javascript_include_tag "/plugins/select2/select2.min.js" %>
+    <%= javascript_include_tag "/plugins/datepicker/bootstrap-datepicker.js" %>
+    <%= javascript_include_tag "/plugins/datatables/jquery.dataTables.min.js" %>
+    <%= javascript_include_tag "/plugins/datatables/dataTables.bootstrap.min.js" %>
+    <%= javascript_include_tag "/plugins/sweetalert/sweetalert.min.js" %>
+    <%= javascript_include_tag "/plugins/daterangepicker/moment.min.js" %>
+    <%= javascript_include_tag "/plugins/toast/toastr.min.js" %>
+    <%= javascript_include_tag "/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" %>
+    <%= javascript_include_tag "/plugins/bootstrap-fileinput/js/fileinput.min.js" %>
+    <%= javascript_include_tag "/scripts/app.js"+"?"+SecureRandom.uuid %>
+    <%= yield :scripts %>
+
+</body>
+
+</html>

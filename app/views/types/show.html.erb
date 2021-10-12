@@ -1,0 +1,58 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Management</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="javascript:void(0);">Master</a></li>
+    <li><a href="<%= types_path %>"><%= @page_name %></a></li>
+    <li class="active">Detail</li>
+</ol>
+
+<%= render "shared/alert" %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <div class="pull-left">
+                <i class="fa fa-search"></i>&nbsp;<strong>Detail</strong>
+            </div>
+            <div class="pull-right">
+                <%= link_to '<i class="fa fa-rotate-left"></i>&nbsp;Back'.html_safe, types_path,  class: "btn btn-sm btn-primary" %>
+                <%= link_to '<i class="fa fa-plus"></i>&nbsp;Create New'.html_safe, new_type_path,  class: "btn btn-sm btn-success" %>
+                <%= link_to '<i class="fa fa-edit"></i>&nbsp;Edit Data'.html_safe, edit_type_url(@type),  class: "btn btn-sm btn-warning" %>
+                <%= link_to '<i class="fa fa-trash"></i>&nbsp;Delete'.html_safe, type_path(@type),  class: "btn btn-sm btn-danger", id: "btn-delete-data" %>
+                <%= form_for(@type, :html => { :method => :delete, :remote => true, :id => "form-delete" }) do |f| %>  
+                   <input type="hidden" name="is_ajax" value="n" />
+                   <%= token_tag %> 
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Name :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static"><%= @type.name %></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Description :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static"><%= @type.description %></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+<% end %>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  transaction: one
+  product: one
+  price: 1.5
+  qty: 1.5
+  total: 1.5
+
+two:
+  transaction: two
+  product: two
+  price: 1.5
+  qty: 1.5
+  total: 1.5

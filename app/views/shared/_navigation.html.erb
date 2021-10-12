@@ -1,0 +1,97 @@
+<div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Point Of Sales</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <% if current_user %>
+        <ul class="nav navbar-nav navbar-right sidebar-menu">
+
+            <li class="<%= current_controller?(['dashboard']) ? "active" : "" %>">
+                <%= link_to '<i class="fa fa-dashboard"></i> Dashboard'.html_safe, root_path %>
+            </li>
+            <li class="dropdown <%= request.path != "/profile" && current_controller?(['brands', 'categories','customers','products','suppliers', 'types','roles','users']) ? "active" : "" %>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-database"></i>&nbsp;Master Data <b class="caret"></b></a>
+                <ul class="dropdown-menu treeview-menu">
+                    <li>
+                        <%= link_to '<i class="fa fa-car"></i> Brand'.html_safe, brands_path %>
+                    </li>
+                     <li>
+                        <%= link_to '<i class="fa fa-tags"></i> Category'.html_safe, categories_path %>
+                    </li>
+                     <li>
+                        <%= link_to '<i class="fa fa-users"></i> Customers'.html_safe, customers_path %>
+                    </li>
+                     <li>
+                        <%= link_to '<i class="fa fa-space-shuttle"></i> Product'.html_safe, products_path %>
+                    </li>
+                     <li>
+                        <%= link_to '<i class="fa fa-truck"></i> Supplier'.html_safe, suppliers_path %>
+                    </li>
+                     <li>
+                        <%= link_to '<i class="fa fa-rocket"></i> Types'.html_safe, types_path %>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <%= link_to '<i class="fa fa-key"></i> Role'.html_safe, roles_path %>
+                    </li>
+                    <li>
+                        <%= link_to '<i class="fa fa-user"></i> User'.html_safe, users_path %>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown <%= current_controller?(['purchases', 'sales']) ? "active" : "" %>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-money"></i>&nbsp;Transaction <b class="caret"></b></a>
+                <ul class="dropdown-menu treeview-menu">
+                    <li>
+                        <%= link_to '<i class="fa fa-cart-arrow-down"></i> Purchases'.html_safe, purchases_path %>
+                    </li>
+                    <li>
+                        <%= link_to '<i class="fa fa-cart-plus"></i> Sales'.html_safe, sales_path %>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="<%= current_controller?(['reports']) ? "active" : "" %>">
+                <%= link_to '<i class="fa fa-line-chart"></i> Report'.html_safe, reports_path %>
+            </li>
+
+            <li class="dropdown <%= request.path == "/profile" ? 'active' : ''  %>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-plus"></i>&nbsp;<%= current_user.email %> <b class="caret"></b></a>
+                <ul class="dropdown-menu treeview-menu">
+                    <li>
+                        <%= link_to '<i class="fa fa-user"></i> My Profile'.html_safe, profile_path %>
+                    </li>
+                    <li>
+                        <%= link_to '<i class="fa fa-sign-out"></i> Logout'.html_safe, logout_path  %>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+        <% else %>
+            <ul class="nav navbar-nav navbar-right sidebar-menu">
+                <% if current_page?(login_path) || flash[:alert] %>
+                     <li>
+                        <%= link_to '<i class="fa fa-edit"></i> Sign Up'.html_safe, signup_path %>
+                    </li>
+                <% end %>
+                <% if current_page?(signup_path) || flash[:register] %>
+                    <li>
+                        <%= link_to '<i class="fa fa-sign-in"></i> Login'.html_safe, login_path %>
+                    </li>
+                <% end %>
+            </ul>
+        <% end %>
+    </div>
+    <!-- /.navbar-collapse -->
+</div>
+<!-- /.container -->

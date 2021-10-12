@@ -1,0 +1,84 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Management</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="javascript:void(0);">Master</a></li>
+    <li><a href="<%= users_path %>"><%= @page_name %></a></li>
+    <li class="active">Detail</li>
+</ol>
+
+<%= render "shared/alert" %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <div class="pull-left">
+                <i class="fa fa-search"></i>&nbsp;<strong>Detail</strong>
+            </div>
+            <div class="pull-right">
+                <%= link_to '<i class="fa fa-rotate-left"></i>&nbsp;Back'.html_safe, users_path,  class: "btn btn-sm btn-primary" %>
+                <%= link_to '<i class="fa fa-plus"></i>&nbsp;Create New'.html_safe, new_user_path,  class: "btn btn-sm btn-success" %>
+                <%= link_to '<i class="fa fa-edit"></i>&nbsp;Edit Data'.html_safe, edit_user_url(@user),  class: "btn btn-sm btn-warning" %>
+                <%= link_to '<i class="fa fa-trash"></i>&nbsp;Delete'.html_safe, user_path(@user),  class: "btn btn-sm btn-danger", id: "btn-delete-data" %>
+                <%= form_for(@user, :html => { :method => :delete, :remote => true, :id => "form-delete" }) do |f| %>  
+                   <input type="hidden" name="is_ajax" value="n" />
+                   <%= token_tag %> 
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Username :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static"><%= @user.username %></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Email :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static"><%= @user.email %></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Phone :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static"><%= @user.phone %></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Roles :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static">
+                        <% if @user.roles.any?  %>
+                            <% @user.roles.each do |role| %>
+                                <%= role.name %> ,
+                            <% end %>
+                        <% else %>
+                            -
+                        <% end %>
+                    </p>
+                </div>
+            </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2">Active :</label>
+                <div class="col-sm-10">
+                    <p class ="form-control-static"><%= @user.is_active ? '<span class="label label-success">Yes</span>'.html_safe() : '<span class="label label-danger">No</span>'.html_safe() %></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+<% end %>

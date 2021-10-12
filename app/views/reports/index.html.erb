@@ -1,0 +1,118 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Transaction</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Transaction</li>
+</ol>
+
+<%= render "shared/alert" %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-table"></i>&nbsp;<strong>List Of Report</strong>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid table-responsive">
+            <table class="table table-striped" id="table-data">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Purchase By Period</strong></td>
+                        <td>
+                             <%= link_to '<i class="fa fa-search"></i>&nbsp;'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-success btn-report-show", data: { href: reports_purchase_period_path(:first_date =>@firstDate, :last_date=> @lastDate) } %>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td><strong>Purchase By Supplier</strong></td>
+                        <td>
+                            <%= link_to '<i class="fa fa-search"></i>&nbsp;'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-success btn-report-show", data: { href: reports_purchase_supplier_path(:first_date =>@firstDate, :last_date=> @lastDate) } %>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td> <strong>Purchase By Product</strong></td>
+                        <td>
+                            <%= link_to '<i class="fa fa-search"></i>&nbsp;'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-success btn-report-show", data: { href: reports_purchase_product_path(:first_date =>@firstDate, :last_date=> @lastDate) } %>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td><strong>Sale By Period</strong></td>
+                        <td>
+                           <%= link_to '<i class="fa fa-search"></i>&nbsp;'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-success btn-report-show", data: { href: reports_sale_period_path(:first_date =>@firstDate, :last_date=> @lastDate) } %>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td><strong>Sale By Customer</strong></td>
+                        <td>
+                            <%= link_to '<i class="fa fa-search"></i>&nbsp;'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-success btn-report-show", data: { href: reports_sale_customer_path(:first_date =>@firstDate, :last_date=> @lastDate) } %>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td><strong>Sale By Product</strong></td>
+                        <td>
+                           <%= link_to '<i class="fa fa-search"></i>&nbsp;'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-success btn-report-show", data: { href: reports_sale_product_path(:first_date =>@firstDate, :last_date=> @lastDate) } %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">  &times;</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <i class="fa fa-line-chart"></i>&nbsp;Report Preview
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group col-md-6">
+                        <label for="first_date">First Date:</label>
+                        <input type="text" class="form-control date-filter" id="first_date" value="<%= @firstDate %>">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="last_date">Last Date:</label>
+                        <input type="text" class="form-control date-filter" id="last_date" value="<%= @lastDate %>">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <a href="javascript:void(0);" class="btn btn-sm btn-success" id="btn-print">
+                            <i class="fa fa-print"></i>&nbsp;Print Report
+                        </a>
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+                <hr>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" id="iframe-report" src="/"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<% end %>
+
+<% content_for :scripts do %>
+<%= javascript_include_tag "/scripts/reports.js"+"?"+SecureRandom.uuid  %>
+<% end %>

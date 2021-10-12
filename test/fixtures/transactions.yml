@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 1
+  status: false
+  invoice_number: MyString
+  invoice_date: 2020-01-01
+  supplier: one
+  customer: one
+  user: one
+  total_items: 1.5
+  subtotal: 1.5
+  discount: 1.5
+  tax: 1.5
+  grandtotal: 1.5
+  cash: 1.5
+  change: 1.5
+  notes: MyText
+
+two:
+  type: 1
+  status: false
+  invoice_number: MyString
+  invoice_date: 2020-01-01
+  supplier: two
+  customer: two
+  user: two
+  total_items: 1.5
+  subtotal: 1.5
+  discount: 1.5
+  tax: 1.5
+  grandtotal: 1.5
+  cash: 1.5
+  change: 1.5
+  notes: MyText

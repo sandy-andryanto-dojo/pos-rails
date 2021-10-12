@@ -1,0 +1,53 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Management</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="javascript:void(0);">Master</a></li>
+    <li class="active"><%= @page_name %></li>
+</ol>
+
+<%= render "shared/alert" %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <div class="pull-left">
+                <i class="fa fa-table"></i>&nbsp;<strong>List <%= @page_name %></strong>
+            </div>
+            <div class="pull-right">
+               <%= link_to '<i class="fa fa-plus"></i>&nbsp;Create New'.html_safe, new_product_path,  class: "btn btn-sm btn-success" %>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid table-responsive">
+            <table class="table table-striped" id="table-data">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Product Name</th>
+                        <th>Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+<% end %>
+
+<% content_for :scripts do %>
+<%= javascript_include_tag "/scripts/products.js"+"?"+SecureRandom.uuid  %>
+<% end %>

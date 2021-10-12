@@ -1,0 +1,115 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Management</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="javascript:void(0);">Transaction</a></li>
+    <li><a href="<%= purchases_path %>"><%= @page_name %></a></li>
+    <li class="active">Detail</li>
+</ol>
+
+<%= render "shared/alert" %>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <div class="pull-left">
+                <i class="fa fa-search"></i>&nbsp;<strong>Detail</strong>
+            </div>
+            <div class="pull-right">
+                <%= link_to '<i class="fa fa-rotate-left"></i>&nbsp;Back'.html_safe, purchases_path,  class: "btn btn-sm btn-primary" %>
+                <%= link_to '<i class="fa fa-plus"></i>&nbsp;Create New'.html_safe, new_purchase_path,  class: "btn btn-sm btn-success" %>
+                <% if(!@purchase.status) %>
+                    <%= link_to '<i class="fa fa-edit"></i>&nbsp;Edit Data'.html_safe, edit_purchase_url(@purchase),  class: "btn btn-sm btn-warning" %>
+                    <%= link_to '<i class="fa fa-trash"></i>&nbsp;Delete'.html_safe, purchase_path(@purchase),  class: "btn btn-sm btn-danger", id: "btn-delete-data" %>
+                    <%= form_for @purchase, as: :post, url: purchase_path(@purchase), method: :delete, html: { class: "", id: "form-delete" } do |f| %>
+                        <input type="hidden" name="is_ajax" value="n" />
+                        <%= token_tag %> 
+                    <% end %>
+                <% else %>
+                <%= link_to '<i class="fa fa-print"></i>&nbsp;Print'.html_safe,"javascript:void(0);",  class: "btn btn-sm btn-info", id: "btn-print", data: { href: purchases_print_path } %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+         <div class="container-fluid table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2">Invoice Date : <%= @purchase.invoice_date  %></th>
+                        <th colspan="2">Invoice Number : <%= @purchase.invoice_number  %></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Supplier :  <%= @purchase.supplier ? @purchase.supplier.name : "-"  %></th>
+                        <th colspan="2">Casheir :  <%= @purchase.user.username  %></th>
+                    </tr>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if @details.any?  %>
+                        <% @details.each do |detail| %>
+                             <tr>
+                                <td><%= detail.product.sku  %> - <%= detail.product.name  %></td>
+                                <td><%= detail.price  %></td>
+                                <td><%= detail.qty  %></td>
+                                <td><%= detail.total  %></td>
+                            </tr>
+                        <% end %>
+                    <% else %>
+                    <tr class='text-center'>
+                        <td colspan='4'>
+                            -- No Items --
+                        </td>
+                    </tr>
+                    <% end %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4">Grand Total : <%= @purchase.grandtotal  %></th>
+                    </tr>
+                </tfoot>
+            </table>
+         </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">  &times;</button>
+            <h4 class="modal-title" id="myModalLabel">
+               <i class="fa fa-print"></i>&nbsp;Print Invoice
+            </h4>
+         </div>
+         <div class="modal-body">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" id="iframe-invoice" src="/"></iframe>
+            </div>
+         </div>
+         <div class="modal-footer"></div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+
+
+<% end %>
+
+<% content_for :scripts do %>
+<%= javascript_include_tag "/scripts/purchases.js"+"?"+SecureRandom.uuid  %>
+<% end %>   
+

@@ -1,0 +1,162 @@
+<% content_for :title do %>
+<%= @page_name %>
+<% end %>
+
+<% content_for :content do %>
+
+<h1 class="page-header"><%= @page_name %>
+    <small>Management</small>
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="javascript:void(0);">Master</a></li>
+    <li><a href="<%= sales_path %>"><%= @page_name %></a></li>
+    <li class="active">Manage Transaction</li>
+</ol>
+
+<%= render "shared/alert" %>
+
+
+<% if @sale.errors.full_messages.any? %>
+<div class="alert alert-warning" alert-dismissable>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <% @purchas.errors.full_messages.each do |msg| %>
+        <p class="text-left"><i class="fa fa-warning"></i>&nbsp;<%= msg %></p>
+    <% end %>
+</div>
+<% end %>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="clearfix">
+            <div class="pull-left">
+                <i class="fa fa-edit"></i>&nbsp;<strong>Manage Transaction</strong>
+            </div>
+            <div class="pull-right">
+                <%= link_to '<i class="fa fa-rotate-left"></i>&nbsp;Back'.html_safe, sales_path,  class: "btn btn-sm btn-info" %>
+                <% if(!@sale.status) %>
+                    <%= link_to '<i class="fa fa-trash"></i>&nbsp;Delete'.html_safe, sale_path(@sale),  class: "btn btn-sm btn-danger", id: "btn-delete-data" %>
+                    <%= form_for @sale, as: :post, url: sale_path(@sale), method: :delete, html: { class: "", id: "form-delete" } do |f| %>
+                        <input type="hidden" name="is_ajax" value="n" />
+                        <%= token_tag %> 
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <%= form_for @sale, as: :post, url: sale_path(@sale), method: :patch, html: { class: "", id: "form-invoice" } do |f| %>
+
+        <div class="form-group col-md-3">
+            <label for="name">Invoice Date</label>
+            <input type="text" class="form-control" value="<%= @sale.invoice_date  %>" readonly="readonly" />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="name">Invoice Number</label>
+            <input type="text" class="form-control" value="<%= @sale.invoice_number  %>" readonly="readonly" />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="name">Customer</label>
+            <%= collection_select(@sale.customer, :customer_id,  Customer.all, :id, :name,{:selected => @sale.customer_id }, {:include_blank => "Select Customer", :class=> 'form-control select2'}) %>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="name">Casheir</label>
+            <input type="text" class="form-control" value="<%= @sale.user.username  %>" readonly="readonly" />
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="container-fluid table-responsive">
+            <table class="table" id="table-invoice">
+                <thead>
+                    <tr>
+                        <th> Product</th>
+                        <th width="200">Price</th>
+                        <th width="90">Stock</th>
+                        <th width="90">Qty</th>
+                        <th width="200">Total</th>
+                        <th width="70">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn btn-sm btn-info" id="btn-add">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="form-group col-md-2">
+            <label for="name">Subtotal</label>
+            <input type="number" step="any" id="subtotal" name="subtotal" class="form-control" value="<%= @sale.subtotal  %>" readonly="readonly" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="name">Discount (5%)</label>
+            <input type="number" step="any" id="discount" name="discount" class="form-control" value="<%= @sale.discount  %>" readonly="readonly" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="name">Tax (10%)</label>
+            <input type="number" step="any" id="tax" name="tax" class="form-control" value="<%= @sale.tax  %>" readonly="readonly" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="name">Grandtotal</label>
+            <input type="number" step="any" id="grandtotal" name="grandtotal" class="form-control" value="<%= @sale.grandtotal  %>" readonly="readonly" />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="name">Petty Cash</label>
+            <input type="number" step="any" id="cash" name="cash" class="form-control" value="<%= @sale.cash  %>"  />
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="name">Change</label>
+            <input type="number" step="any" id="change" name="change" class="form-control" value="<%= @sale.change  %>" readonly="readonly" />
+        </div>
+
+        <div class="clearfix"></div>
+        <hr>
+
+        <div class="form-group">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-save"></i>&nbsp;Save & Finish
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <button type="reset" class="btn btn-warning">
+                        <i class="fa fa-refresh"></i>&nbsp;Reset
+                    </button>    
+                </div>
+            </div>
+        </div>
+
+
+
+        <% end %>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+
+<% end %>
+
+<% content_for :scripts do %>
+<%= javascript_include_tag "/scripts/sales.js"+"?"+SecureRandom.uuid  %>
+<% end %>   

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Hello World">
+        <meta name="author" content="Sandy Andryanto">
+        <title>Point Of Sales - Print Invoice Purchase Order By Period</title>
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" media="all" href="<%= request.base_url+"/css/bootstrap.min.css" %>" /> 
+    </head>
+    <body>
+        <div class="">
+            <div class="container-fluid table-responsive">
+                <h1 class='text-center'>
+                    PURCHASE ORDER BY PERIOD 
+                </h1>
+                <hr>
+                <% if @data.any?  %>
+                    <% @data.each do |purchase| %>
+
+                      <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Invoice Date : <%= purchase.invoice_date  %></th>
+                                <th colspan="2">Invoice Number : <%= purchase.invoice_number  %></th>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Supplier :  <%= purchase.supplier ? purchase.supplier.name : "-"  %></th>
+                                <th colspan="2">Casheir :  <%= purchase.user.username  %></th>
+                            </tr>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% details = TransactionDetail.where("transaction_id = ? ", purchase.id) %>
+                            <% if details.any?  %>
+                                <% details.each do |detail| %>
+                                    <tr>
+                                        <td><%= detail.product.sku  %> - <%= detail.product.name  %></td>
+                                        <td><%= detail.price  %></td>
+                                        <td><%= detail.qty  %></td>
+                                        <td><%= detail.total  %></td>
+                                    </tr>
+                                <% end %>
+                            <% else %>
+                            <tr class='text-center'>
+                                <td colspan='4'>
+                                    -- No Items --
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4">Grand Total : <%= purchase.grandtotal  %></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+
+
+                     <% end %>
+                <% end %>
+            </div>
+        </div>
+    </body>
+</html>
